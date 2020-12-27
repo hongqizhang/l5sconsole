@@ -2,42 +2,420 @@
 @import "~@coreui/coreui-pro/scss/coreui";
 // Your variable overrides
 
-$body-bg: #fff;
+$body-bg: #F3F5FA;
+$heders-bg:#FFFFFF;
 $body-color: #000;
-.c-app.c-dark-theme {
-    color: $body-color;
-    background-color: $body-bg;
-}
+
+//会议块背景
+$confere_fast_bg:#FFFFFF;
 // .toggler{
 //   color: $body-color;
 // }
-// 左边栏
-.c-app .c-sidebar {
-  color: $body-color;
-  background:$body-bg;
-  // border: 0;
-}
 
-// 表格
 .c-app {
+	background-color: $body-bg;
+	//回放
+    .playback{
+        .playback_snap_zuo{
+            .el-input__inner{ //输入框
+                background-color:#ECEDED;
+                border: none;
+                border-radius: 30px;
+			}
+			.el-collapse{
+                .el-collapse-item{
+                    height: 30vh;
+                    .el-collapse-item__wrap{
+                        .el-collapse-item__content{
+                            height: 25vh;
+                            padding: 0 10px;
+                            overflow: auto;
+                            // ::-webkit-scrollbar{
+                            //     display: none;
+                            // }
+                            //1
+                            .content_zuo_con{
+                                width: 100%;
+                                height: 25vh;
+                                overflow: auto;
+                                &::-webkit-scrollbar{
+                                    display: none;
+                                }
+                                .content_zuo_content{
+                                    width: 100%;
+                                    height: 90%;
+                                    .content_zuo_user{
+                                        width: 100%;
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding: 10px 18px;
+                                        .user_icon{
+                                            display: flex;
+                                            align-items: center;
+                                            .icon_size{
+                                                font-size:15px;
+                                                color: #0099da;
+                                                margin-right: 8px;
+                                            }
+                                            .icon_size1{
+                                                font-size:15px;
+                                                margin-right: 8px;
+                                            }
+                                            .user_size{
+                                                font-size:16px;
+                                                font-family:PingFang SC;
+                                                font-weight:500;
+                                            }
+                                        }
+                                    }
+                                    .user_onl{
+                                        font-size:14px;
+                                        font-family:PingFang SC;
+                                        font-weight:500;
+                                        color:rgba(59,205,107,1);
+                                        cursor:pointer;
+                                    }
+                                    .user_onl1{
+                                        font-size:14px;
+                                        font-family:PingFang SC;
+                                        font-weight:500;
+                                        color:#FFFFFF;
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+		}
+		.playback_snap_you{
+            .el-input__inner{
+                background: none;
+                border: 1px solid #ECEDED;
+                height: 30px;
+                line-height: 30px;
+            }
+            .el-input__icon{
+                line-height: 30px;
+            }
+            .snap_you_topbutt{
+                .snap_you_topbutt1{
+                    background: #3ABBFE;
+                    border: none;
+                    color: #FFFFFF;
+                    padding: 8px 20px;
+                }
+                .snap_you_topbutt2{
+                    background: none;
+                    border: 1px solid #3ABBFE;
+                    color: #000000;
+                    padding: 7px 20px;
+                }
+			}
+		}
+    }
+	//实时播放页面
+    .liveview{
+        .liveview_left{
+            .el-input__inner{ //输入框
+                background-color:#ECEDED;
+                border: none;
+                border-radius: 30px;
+            }
+        }
+        .liveview_right{
+            .videoColor {
+                background-color: #494A4B;
+                .palace{
+                    border:1px solid #373737;
+                }
+            }
+            .liveview_group{
+                .liveview_function{
+                    .el-input__inner{
+                        // background: none;
+                        border: 1px solid #9A9A9A;
+                    }
+                }
+                button{
+                    padding: 0;
+                    color: #333333;
+                }
+                .liveview_butt{
+                    button{
+                        padding: 0;
+                        border: none;
+                        background: none;
+                        color: #333333;
+                        font-size: 30px;
+                    }
+                }
+            }
+        }
+    }
+	//会议
+	.dasboard_global{
+		.title_g{
+            color:$body-color;
+        }
+		.dasboard_top{
+			background: url('~@/views/gallery/dash_onewhite.png')no-repeat;
+            background-size: 100%;
+			.top_zuo{
+				.top_title{
+					background: url('~@/assets/imgs/l5s_logo_hei.png')no-repeat;
+					background-size: 100%;
+				}
+				.top_zuo_zuo{
+					color:$body-color;
+				}
+			}
+			.top_you{
+                .top_you_butt{
+                    background: url('~@/views/gallery/dash_oneicon1.png')no-repeat center center;
+                }
+            }
+		}
+		.dasboard_content{
+			background-color: $confere_fast_bg;
+			.content_title_back{
+				background: url('~@/assets/imgs/l5s_logo_hei.png')no-repeat;
+			}
+			.content_con_title{
+                .content_con_title_size{
+                    color:$body-color;
+                }
+            }
+			.content_size_ag{
+				color: $body-color;
+			}
+			.conten_buttom{
+				.conten_buttom_dian1{
+					background:#FFCC00;
+				}
+				.conten_buttom_size{
+					color: $body-color;
+				}
+			}
+		}
+		//设置左侧栏
+		.setting_all{
+			.setting_zuo{
+				background-color: $heders-bg;
+				.el-menu-item{
+					i{
+						color: $body-color;
+					}
+				}
+				.el-submenu{
+					.el-submenu__title{
+						i{
+							color: $body-color;
+						}
+					}
+				}
+			}
+		}
+	}
+	// 左边栏
+	.c-sidebar {
+		color: $body-color;
+		background:$body-bg;
+		.el-menu-vertical-demo{
+			i{
+				color: $body-color;
+				margin-right: 24px;
+			}
+		}
+		.c_logo{
+            background: url("~@/assets/imgs/l5s_logo11.png") center center no-repeat;
+            background-size: 85%;
+        }
+		.toggler{
+			border: none !important;
+			color: $body-color;
+		}
+		// border: 0;
+	}
 	a{
 		color: $body-color;
-	} 
+	}
+	//会议控制
+	.Control_g{
+        .Control{
+            .Control_you{
+				.Control_you_top{
+                    color:$body-color;
+                }
+                .Control_you_content{
+                    .el-collapse{
+                        .el-collapse-item__header{
+                            color: $body-color;
+                            opacity: 0.7;
+                            border: none;
+                            padding: 0 7px;
+                        }
+                        .el-collapse-item__wrap{
+                            background: none;
+                            border-bottom: none;
+                            .el-collapse-item__content{
+                                padding: 0;
+                                color: $body-color;
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+	// 视频
+	.particiants{
+        .particiants_content{
+            .content_zuo{
+				.el-collapse{
+					border: none;
+					.el-collapse-item__header{
+						font-weight: 600;
+						color: $body-color;
+						background-color: $heders-bg;
+						border: none;
+						padding: 0 7px;
+					}
+					.el-collapse-item__wrap{
+						background: none;
+						border-bottom: none;
+						.el-collapse-item__content{
+							padding: 0;
+							color: $body-color;
+							// opacity: 0.7;
+							//1
+							.content_zuo_con{
+								.content_zuo_content{
+									.content_zuo_user{
+										.user_icon{
+											.icon_size1{
+												color:$body-color;
+											}
+											.user_size{
+												color:$body-color;
+											}
+										}
+                                    }
+                                    .user_onl{
+                                        color:#2c2c2c;
+                                    }
+								}
+								
+							}
+							//2
+							.content_zuo_con2{
+								.content_zuo_content{
+									.content_zuo_user{
+										.user_icon{
+											.user_size{
+												color:$body-color;
+											}
+										}
+										.user_onl{
+											color:$body-color;
+										}
+									}
+								}
+								.content_zuo_but{
+									background-color: $heders-bg;
+									.chatwith_input{
+                                        .el-input__inner{
+                                            background:#F0EFF2!important;
+                                        }
+                                    }
+								}
+							}
+						}
+						
+					}
+				}
+			}
+			.content_you{
+				.conten_you_stup{
+					.conten_you_stupcen{
+						.but_col{
+							color:#FFFFFF;
+						}
+						.bottom_QR{
+							color:$body-color;
+							.bottom_scan{
+								color:$body-color;
+							}
+						}
+					}
+				}
+			}
+        }
+	}
+	//设置协议
+    .portcheck_input{
+        .el-input__inner{
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+    }
 	//顶部导航栏
 	.c_ding{
-		background-color: $body-bg;
+		color: $body-color;
+		background-color: #FFFFFF;
+		z-index: 1100;
+		.c_logo{
+            background: url("~@/assets/imgs/l5s_logo11.png") center center no-repeat;
+            background-size: 85%;
+        }
+		.toggler{
+			border: none !important;
+			color: $body-color;
+			background: none;
+		}
 	}
+
     .btn-link{
         color: $body-color;
         text-decoration: none;
-    }
+	}
+	
+	//表格
     .el-table {
-      background-color:#ff0;
+		min-height: 80vh;
+		background: none;
 	}
-	//设置左侧栏
-	.setting_all{
-		.setting_zuo{
-			background-color: #212121;
+	.el-table th, .el-table tr{
+        background-color: $body-bg !important;
+    }
+    .el-table__header th, .el-table__header tr{
+        background-color: #FFFFFF !important;
+    }
+     .el-table__body tr:hover>td {
+      background:none!important;
+	}
+	.el-table__body tr.hover-row>td{
+		background-color: #FFFFFF!important;
+	}
+	.el-table td, .el-table th.is-leaf {
+		color:$body-color;
+		border: none!important;
+		padding: 5px 0;
+	}
+	.el-table__empty-block{
+        min-height: 80vh;
+        background: none{
+            repeat:no-repeat;
+            position:center
 		}
-	}
+		background-image: url('~@/assets/imgs/setting_tober.png');
+		background-size: 10%;
+        .el-table__empty-text{
+            display: none;
+        }
+    }
 }

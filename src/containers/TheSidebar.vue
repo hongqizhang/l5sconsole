@@ -4,26 +4,127 @@
     unfoldable
     :show="show"
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])">
-        <Menu class="sideb_content" theme="dark" :active-name="activemenu" style="width:100%">
-            <MenuItem name="1" :to="{name:'dashboard'}">
-                <Icon type="" class="iconfont icon-11111"/>
-                会议首页
-            </MenuItem>
-            <router-link  :to="{name:'Conference'}" >
-                <MenuItem name="3">
-                    <Icon class="iconfont icon-yonghuming"/>
-                    视频会议
-                </MenuItem>
-            </router-link>
-            <!-- target="_blank" -->
-            <router-link  :to="{name:'Meetingman'}" target="_blank">
-                <MenuItem name="2">
-                    <Icon class="iconfont icon-yonghuming"/>
-                    设置管理
-                </MenuItem>
-            </router-link>
-            
-        </Menu>
+        <div class="side_togg">
+            <button style="font-size:25px" class="toggler iconfont icon-hanbaobao" @click="togg"></button>
+            <div class="c_logo"></div>
+        </div>
+        <el-menu
+            v-if="$store.state.darkMode"
+			:default-active="activemenu"
+				class="el-menu-vertical-demo"
+				background-color="#212121"
+				text-color="#FFFFFF"
+				active-text-color="#3277FF">
+
+				<router-link :to="{name:'dashboard'}">
+					<el-menu-item index="1">
+						<i class="iconfont icon-11111"></i>
+						<span slot="title">仪表盘</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'OneToOne'}">
+					<el-menu-item index="4">
+						<i class="iconfont icon-dianduidian-"></i>
+						<span slot="title">对讲</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'liveview'}">
+					<el-menu-item index="6">
+						<i class="iconfont icon-shipin1"></i>
+						<span slot="title">视频播放</span>
+					</el-menu-item>
+				</router-link>
+				<router-link :to="{name:'Playback'}">
+					<el-menu-item index="7">
+						<i class="iconfont icon-videofill"></i>
+						<span slot="title">回放</span>
+					</el-menu-item>
+				</router-link>
+                <!-- <router-link :to="{name:'Conference'}">
+					<el-menu-item index="3">
+						<i class="iconfont icon-11111"></i>
+						<span slot="title">视频会议</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'Meetingman'}">
+					<el-menu-item index="2-1">
+						<i class="iconfont icon-huiyiguanli-"></i>
+						<span slot="title">会议管理</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'ConferenceControl'}">
+					<el-menu-item index="5">
+						<i class="iconfont icon-kongzhitai"></i>
+						<span slot="title">会议控制</span>
+					</el-menu-item>
+				</router-link> -->
+                
+                <router-link :to="{name:'User'}">
+					<el-menu-item index="2-2">
+						<i class="iconfont icon-shezhi"></i>
+						<span slot="title">设置</span>
+					</el-menu-item>
+				</router-link>
+        </el-menu>
+        <!-- //// -->
+        <el-menu
+            v-else
+			:default-active="activemenu"
+				class="el-menu-vertical-demo"
+				background-color="#F3F5FA"
+				text-color="#000000"
+				active-text-color="#3277FF">
+
+				<router-link :to="{name:'dashboard'}">
+					<el-menu-item index="1">
+						<i class="iconfont icon-11111"></i>
+						<span slot="title">仪表盘</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'OneToOne'}">
+					<el-menu-item index="4">
+						<i class="iconfont icon-dianduidian-"></i>
+						<span slot="title">对讲</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'liveview'}">
+					<el-menu-item index="6">
+						<i class="iconfont icon-shipin1"></i>
+						<span slot="title">视频播放</span>
+					</el-menu-item>
+				</router-link>
+				<router-link :to="{name:'Playback'}">
+					<el-menu-item index="7">
+						<i class="iconfont icon-videofill"></i>
+						<span slot="title">回放</span>
+					</el-menu-item>
+				</router-link>
+                <!-- <router-link :to="{name:'Conference'}">
+					<el-menu-item index="3">
+						<i class="iconfont icon-11111"></i>
+						<span slot="title">视频会议</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'Meetingman'}">
+					<el-menu-item index="2-1">
+						<i class="iconfont icon-huiyiguanli-"></i>
+						<span slot="title">会议管理</span>
+					</el-menu-item>
+				</router-link>
+                <router-link :to="{name:'ConferenceControl'}">
+					<el-menu-item index="5">
+						<i class="iconfont icon-kongzhitai"></i>
+						<span slot="title">会议控制</span>
+					</el-menu-item>
+				</router-link> -->
+                
+                <router-link :to="{name:'User'}">
+					<el-menu-item index="2-2">
+						<i class="iconfont icon-shezhi"></i>
+						<span slot="title">设置</span>
+					</el-menu-item>
+				</router-link>
+        </el-menu>
     </CSidebar>
 </template>
 
@@ -53,6 +154,10 @@ export default {
         this.menuList();
   },
     methods:{
+        togg(){
+            $(".heder_Mask").toggle()
+            this.$store.commit('toggleSidebarDesktop')
+        },
         menuList(){ 
             let path = this.$route.matched[1].meta.title
             this.activemenu = path
@@ -61,30 +166,18 @@ export default {
 }
 </script>
 <style lang="scss" scopad>
-.sideb_content{
-    background: none;
-    text-align: center;
-    .ivu-menu-item{
-        // margin-left: -10%;
-        font-family:PingFang SC;
-        font-weight:500;
-        text-decoration: none;
+.side_togg{
+    width: 100%;
+    display: flex;
+    .toggler{
+        color: #FFFFFF;
+        padding: 0;
+        padding-left: 13px;
     }
-}
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item{
-    color: #FFFFFF;
-}
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened{
-    background: none;
-}
-.ivu-menu-submenu{
-    .ivu-menu-submenu-title{
-        color: #FFFFFF !important;
+    .c_logo{
+        width: 160px;
+        height: 100%;
     }
-}
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active{
-    background: none !important;
-    color: #3277FF;
 }
 </style>
 

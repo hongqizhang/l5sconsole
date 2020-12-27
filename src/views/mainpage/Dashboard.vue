@@ -1,8 +1,11 @@
 <template>
     <div class="dasboard">
         <div class="dasboard_global">
+            <!-- 顶部 -->
             <div class="dasboard_one">
+                <!-- 顶部左侧 -->
                 <div class="dasboard_one_left">
+                    <!-- 顶部左侧上部 -->
                     <div class="dasboard_one_lup">
                         <div class="dasboard_one_lupl">
                             <div class="beibiao_zi">
@@ -19,31 +22,90 @@
                             <div id="container1" style="width: 100%;height: 95%;"></div>
                         </div>
                     </div>
+                    <!-- 顶部左侧下部 -->
                     <div class="dasboard_one_ldown">
-                        123
-                    </div>
-                </div>
-                <div class="dasboard_one_right">
-                    <div class="dasboard_one_rup">
-                        <div class="beibiao_zi">
-                            <img src="../gallery/Dashboard_icon.png"/>
-                            <span>{{this.$t("message.dashboard.device")}}</span>
-                        </div>
-                        <div class="container_sdk">
-                            <div class="containesr_sdks" v-for="(da,index) in devbucket" :key="index">
-                                <div class="sdk_back">
-                                    <!-- <div class="sdk_back1" :id="'aa'+index">
-                                    </div> -->
-                                    <div class="sdk_szie">{{da.percentage}}%</div>
+                        <!-- 顶部左侧下部左侧 -->
+                        <div class="dasboard_one_ldown_left">
+                            <div class="beibiao_zi">
+                                <img src="../gallery/Dashboard_icon.png"/>
+                                <span>{{this.$t("message.dashboard.capability")}}</span>
+                            </div>
+                            <div class="function_list">
+                                <div class="function_list_content" v-for="(c,index) in system" :key="index">
+                                    <span>{{c.name}}</span>
+                                    <el-switch
+                                    v-if="c.name=='transcoding:'||c.name=='转码:'"
+                                    v-model="c.id"
+                                    disabled
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949">
+                                    </el-switch>
+                                    <span v-else> {{c.id}}</span>
                                 </div>
-                                <div class="containesr_sdks_zi">
-                                    <div>{{da.name}}</div>
-                                    <div>{{total}} {{da.total1}} {{ge}}</div>
+                            </div>
+                        </div>
+                        <!-- 顶部左侧下部右侧 -->
+                        <div class="dasboard_one_ldown_right">
+                            <div class="beibiao_zi">
+                                <img src="../gallery/Dashboard_icon.png"/>
+                                <span>会议</span>
+                            </div>
+                            <div class="container">
+                                <div v-for="(a,index) in 3" :key="index">
+                                    <div :id="'devsdk'+index" class="beisdk"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="dasboard_one_rdown">
+                </div>
+                <!-- 顶部右侧 -->
+                <div class="dasboard_one_right">
+                    <!-- 顶部右侧上部 -->
+                    <div class="dasboard_one_rup">
+                        <div class="beibiao_zi">
+                            <img src="../gallery/Dashboard_icon.png"/>
+                            <span>{{this.$t("message.dashboard.DiskMemory")}}</span>
+                        </div>
+                        <div class="nr_mory">
+                            <div class="nr_mory1">
+                                <el-progress
+                                v-if="strRunTime"
+                                type="circle" 
+                                :width='100'
+                                :stroke-width="10"
+                                color="#4C80FA"
+                                :percentage="Number(Math.round((strRunTime.nTotalSpaceByte-strRunTime.nFreeSpaceByte)/strRunTime.nTotalSpaceByte*100))"></el-progress> 
+                                <div>{{this.$t("message.dashboard.free_space")}}</div>
+                                <div>({{((strRunTime.nFreeSpaceByte)/1024/1024/1024).toFixed(1)}}G)</div>
+                            </div>
+                            <div class="nr_mory1">
+                                <el-progress
+                                type="circle"
+                                :width='100'
+                                :stroke-width="10"
+                                v-if="strRunTime"
+                                color="#FFF025"
+                                :percentage="Number(strRunTime.nMemoryUsage)"></el-progress>
+                                <div>{{this.$t("message.dashboard.memory")}}</div>
+                                <!-- {{this.$t("message.dashboard.TotalMemory")}}:  -->
+                                <div>({{(strRunTime.nTotalMemoryByte/1024/1024/1024).toFixed(1)}}G)</div>
+                            </div>
+                            <div class="nr_mory1">
+                                <el-progress
+                                    type="circle"
+                                    :width='100'
+                                    :stroke-width="10"
+                                    v-if="strRunTime"
+                                    color="#FF3FE5"
+                                    :percentage="Number(Math.round((strRunTime.nRecordTotalSpaceByte-strRunTime.nRecordFreeSpaceByte)/strRunTime.nRecordTotalSpaceByte*100))"></el-progress>
+                                <div>{{this.$t("message.dashboard.Storage")}}</div>
+                                <div>({{(strRunTime.nRecordTotalSpaceByte/1024/1024/1024).toFixed(1)}}G)</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- 顶部右侧中部 -->
+                    <div class="dasboard_one_rin">
                         <div class="beibiao_zi">
                             <img src="../gallery/Dashboard_icon.png"/>
                             <span>{{this.$t("message.dashboard.codec_info")}}</span>
@@ -55,9 +117,22 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 顶部右侧下部 -->
+                    <div class="dasboard_one_rdown">
+                        <div class="beibiao_zi">
+                            <img src="../gallery/Dashboard_icon.png"/>
+                            <span>{{this.$t("message.dashboard.GPU_info")}}</span>
+                        </div>
+                        <div class="flex_GPU">
+                            <div>Intel: {{Gpulen.nIndex}}</div>
+                            <div>NVIDIA: {{Gpulen.nvidia}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- 底部 -->
             <div class="dasboard_two">
+                <!-- 一 -->
                 <div class="dasboard_two1">
                     <div class="beibiao_zi">
                         <img src="../gallery/Dashboard_icon.png"/>
@@ -78,6 +153,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 二 -->
                 <div class="dasboard_two2">
                     <div class="beibiao_zi">
                         <img src="../gallery/Dashboard_icon.png"/>
@@ -101,47 +177,25 @@
                         <img src="../gallery/chart.png"/>
                     </div>
                 </div>
+                <!-- 三 -->
                 <div class="dasboard_two3">
                     <div class="beibiao_zi">
-                        <img src="../gallery/Dashboard_icon.png"/>
-                        <span>{{this.$t("message.dashboard.DiskMemory")}}</span>
-                    </div>
-                    <div class="nr_mory">
-                        <div class="nr_mory1">
-                            <el-progress
-                            v-if="strRunTime"
-                            type="circle" 
-                            :width='120'
-                            :stroke-width="10"
-                            color="#4C80FA"
-                            :percentage="Number(Math.round((strRunTime.nTotalSpaceByte-strRunTime.nFreeSpaceByte)/strRunTime.nTotalSpaceByte*100))"></el-progress> 
-                            <div>{{this.$t("message.dashboard.free_space")}}</div>
-                            <div>{{strRunTime.strFreeSpace}}</div>
+                            <img src="../gallery/Dashboard_icon.png"/>
+                            <span>{{this.$t("message.dashboard.device")}}</span>
                         </div>
-                        <div class="nr_mory1">
-                            <el-progress
-                            type="circle"
-                            :width='120'
-                            :stroke-width="10"
-                            v-if="strRunTime"
-                            color="#FFF025"
-                            :percentage="Number(strRunTime.nMemoryUsage)"></el-progress>
-                            <div>{{this.$t("message.dashboard.memory")}}</div>
-                            <div>({{this.$t("message.dashboard.TotalMemory")}}: {{(strRunTime.nTotalMemoryByte/1024/1024/1024).toFixed(1)}}G)</div>
+                        <div class="container_sdk">
+                            <div class="containesr_sdks" v-for="(da,index) in devbucket" :key="index">
+                                <div class="sdk_back">
+                                    <!-- <div class="sdk_back1" :id="'aa'+index">
+                                    </div> -->
+                                    <div class="sdk_szie">{{da.percentage}}%</div>
+                                </div>
+                                <div class="containesr_sdks_zi">
+                                    <div>{{da.name}}</div>
+                                    <div>{{total}} {{da.total1}} {{ge}}</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="nr_mory1">
-                            <el-progress
-                                type="circle"
-                                :width='120'
-                                :stroke-width="10"
-                                v-if="strRunTime"
-                                color="#FF3FE5"
-                                :percentage="Number(Math.round((strRunTime.nRecordTotalSpaceByte-strRunTime.nRecordFreeSpaceByte)/strRunTime.nRecordTotalSpaceByte*100))"></el-progress>
-                            <div>{{this.$t("message.dashboard.Storage")}}</div>
-                            <div>({{(strRunTime.nRecordTotalSpaceByte/1024/1024/1024).toFixed(1)}}G)</div>
-                        </div>
-                        
-                    </div>
                 </div>
             </div>
         </div>
@@ -201,6 +255,11 @@ export default {
                 nRTMPPushTotal: "",
                 nRTMPPushOnline: ""
             },
+            system:"",
+            Gpulen:{
+                nIndex:"",
+                nvidia:""
+            },
             
 		}
 	},
@@ -209,14 +268,32 @@ export default {
         this.GetSystemInfo();
         this.GetCodecInfo();
         this.GetDeviceSummary();
+        this.Gpu();
         this.timerRunInfo = setInterval(() => {
             this.GetRunInfo();
         }, 5000);
         this.timerRunInfo1 = setInterval(() => {
             this.GetDeviceSummary();
         }, 60000*5)
+        var _this=this
+        _this.$root.bus.$on('skintoggle', function(a){
+            console.log("更换皮肤",a)
+            _this.GetRunInfo();
+            _this.GetDeviceSummary();
+        });
 	},
 	methods:{
+        //GPU
+        Gpu(){
+            var url = this.$store.state.IPPORT  + "/api/v1/GetGPUInfo?session=" + this.$store.state.token;
+            this.$http.get(url).then(result => {
+                if (result.status == 200) {
+                    var data = result.data;
+                    this.Gpulen.nIndex=data.intel.length;
+                    this.Gpulen.nvidia=data.nvidia.length;
+                }
+            })
+        },
         //解码器等
         GetCodecInfo() {
             let _this = this;
@@ -257,6 +334,7 @@ export default {
             this.$http.get(url).then(result=>{
                 if (result.status == 200) {
                     this.dev=result.data;
+                    var data=result.data;
                     var Cloud="";
                     var RTSPRx="";
                     var ONVIFx="";
@@ -272,6 +350,12 @@ export default {
                     }else{
                         ONVIFx=Math.round(this.dev.nONVIFOnline/this.dev.nONVIFTotal*100)
                     }
+
+                    if(this.dev.nRTMPPushTotal==0){
+                        RTMPx=0;
+                    }else{
+                        RTMPx=Math.round(this.dev.nRTMPPushOnline/this.dev.nRTMPPushTotal*100)
+                    }
                     var databuk=[{
                         name:'RTSP/RTMP',
                         total1:this.dev.nRTSPRTMPTotal,
@@ -280,12 +364,131 @@ export default {
                         name:'ONVIF',
                         total1:this.dev.nONVIFTotal,
                         percentage:ONVIFx
+                    },{
+                        name:this.$t("message.dashboard.RTMP"),
+                        total1:this.dev.nRTMPPushTotal,
+                        percentage:RTMPx
                     }]
                     
-                    // console.log(databuk,this.devbucket)
                     this.devbucket=databuk
+                    var devdata=[{
+                            name:"用户",
+                            Total:data.nUserTotal,
+                            Online:data.nUserOnline
+                        },{
+                            name:"SIP",
+                            Total:data.nSipTotal,
+                            Online:data.nUserOnline
+                        },{
+                            name:"H323",
+                            Total:data.nH323Total,
+                            Online:data.nH323Online
+                        }];
+                    for(var i=0;i<devdata.length;i++){
+                        this.devimage(devdata[i],i);
+                    }
+                    // console.log(data)
                 }
             })
+        },
+        //环形
+        devimage(devdata,leng){
+            // console.log(devdata,leng,'devive'+leng);
+            var pieId=document.getElementById("devsdk"+leng)
+            // console.log(pieId,'devsdk'+leng);
+            // return false
+            if (!pieId){
+                return false;
+            }
+            var titlecol
+            if(this.$store.state.darkMode){
+                titlecol="#FFFFFF"
+            }else{
+                titlecol="#000000"
+            }
+            var myChart = echarts.init(pieId);
+            myChart.setOption({
+                tooltip: {
+                    show:true
+                },
+                title: {
+                    x: 'center',
+                    y: 'center',
+                    textStyle:{
+                        fontSize:12,
+                        fontWeight:400,
+                        color:titlecol
+                    }
+                },
+                
+                series: [{
+                    name: devdata.name,
+                    type: 'pie',
+                    radius: ['60%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '20',
+                                fontWeight: 'bold',
+                            },
+                            formatter:'{b}\n{c}'
+                        }
+                        
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [{
+                            value:devdata.Online,
+                            name: this.Online,
+                            itemStyle: {
+                                color: '#4C80FA'
+                            }
+                        },
+                        {
+                            value: devdata.Total-devdata.Online,
+                            name: this.Offline,
+                            itemStyle: {
+                                color: '#09C08F'
+                            }
+                        }
+                    ]
+                }]
+            })
+            myChart.setOption({
+                title: {
+                    show: true,
+                    text: devdata.name+'\n'+this.total+devdata.Total+this.ge
+                }
+            })
+            
+            myChart.on('mouseover', () => {
+                myChart.setOption({
+                    title: {
+                        show: false
+                    }
+                })
+            });
+
+            myChart.on('mouseout', () => {
+                myChart.setOption({
+                    title: {
+                        show: true,
+                        text: devdata.name+'\n'+this.total+devdata.Total+this.ge
+                    }
+                })
+            });
+            window.onresize = function(){
+                myChart.resize();
+            }
         },
         //底部版本
         GetSystemInfo() {
@@ -306,37 +509,31 @@ export default {
                         name:_this.$t("message.dashboard.license"),
                         id:data.strLicenseType
                     },{
-                        name:_this.$t("message.dashboard.channel"),
-                        id:data.strChannelLimit
-                    },{
                         name:_this.$t("message.dashboard.endtime"),
                         id:data.strEndtime
                     }]
-                    /**var fun=[{
-                            name:this.$t("message.dashboard.devicesdk"),
-                            id:data.bDeviceSDK
-                        },{
-                            name:this.$t("message.dashboard.transcoding"),
+                    var fun=[{
+                            name:this.$t("message.dashboard.transcoding")+":",
                             id:data.bTranscoding
                         },{
-                            name:this.$t("message.dashboard.gb28181"),
-                            id:data.bGB28181
+                            name:"H323:",
+                            id:data.strH323Limit
                         },{
-                            name:this.$t("message.dashboard.devicesdkpb"),
-                            id:data.bDeviceSDKPb
+                            name:"SIP:",
+                            id:data.strSipLimit
                         },{
-                            name:this.$t("message.dashboard.cluster"),
-                            id:data.bCluster
+                            name:"通道:",
+                            id:data.strChannelLimit
                         },{
-                            name:this.$t("message.dashboard.VideoConference"),
-                            id:data.bVideoConference
+                            name:"User:",
+                            id:data.strUserLimit
                         },{
-                            name:this.$t("message.dashboard.Platform"),
-                            id:data.bPlatform
-                    }]*/
+                            name:"",
+                            id:""
+                        }]
                     this.capability=cpu;
-                    // this.system=fun;
-                    // console.log("***********",this.capability)
+                    this.system=fun;
+                    // console.log("***********",this.system)
                 }
             }).catch(error => {
                 console.log("GetSystemInfo");
@@ -381,7 +578,7 @@ export default {
             var base = +new Date();
             var date = [];
             var _this=this;
-            var oneSecond = 1000;
+            var oneSecond = 5000;
             for (var i = 1; i < 62; i++) {
                 var now = new Date((base += oneSecond));
                 date.push(
@@ -390,6 +587,12 @@ export default {
             }
             // return false;
             // 绘制图表
+            var titlecol
+            if(this.$store.state.darkMode){
+                titlecol="#FFFFFF"
+            }else{
+                titlecol="#000000"
+            }
             var Option={
                 tooltip: {
                     trigger: 'axis',
@@ -410,7 +613,7 @@ export default {
                         itemHeight: 2,
                         textStyle:{
                             fontSize: 12,//字体大小
-                            color: '#FFFFFF'//字体颜色
+                            color: titlecol//字体颜色
                         },
                     },
                 xAxis: {
@@ -429,7 +632,7 @@ export default {
                     axisLabel: {
                         show: true,
                         textStyle: {
-                            color: '#FFFFFF'
+                            color: titlecol
                         }
                     }
                 },
@@ -447,7 +650,7 @@ export default {
                     axisLabel: {
                         show: true,
                         textStyle: {
-                            color: '#FFFFFF'
+                            color: titlecol
                         }
                     }
                 },
@@ -500,13 +703,19 @@ export default {
         },
         cpunv(myChart1){
             var base = +new Date()
-            var oneSecond = 1000
+            var oneSecond = 5000
             var date = [];
             for (var i = 1; i <= 61; i++) {
                 var now = new Date((base += oneSecond))
                 date.push(
                     [('0' + now.getSeconds()).slice(-2) + 's']
                 )
+            }
+            var titlecol
+            if(this.$store.state.darkMode){
+                titlecol="#FFFFFF"
+            }else{
+                titlecol="#000000"
             }
             // 绘制图表
             myChart1.setOption({
@@ -530,7 +739,7 @@ export default {
                         x:"200px",
                         textStyle:{
                             fontSize: 12,//字体大小
-                            color: '#FFFFFF'//字体颜色
+                            color: titlecol//字体颜色
                         },
                     },
                 xAxis: {
@@ -549,7 +758,7 @@ export default {
                     axisLabel: {
                         show: true,
                         textStyle: {
-                            color: '#ffffff'
+                            color: titlecol
                         }
                     }
                 },
@@ -567,7 +776,7 @@ export default {
                     axisLabel: {
                         show: true,
                         textStyle: {
-                            color: '#ffffff'
+                            color: titlecol
                         }
                     }
                 },
@@ -624,9 +833,14 @@ export default {
 
 <style lang="scss" scoped>
 
-$body-color: #FFFFFF;
-.back_g{
-    background-color: #212121;
+.c-app {
+    
+    $body-color: #000000;
+	// 首页块状背景颜色
+	.back_g{
+        background-color: #FFFFFF;
+    }
+    .back_g{
     border-radius: 2px;
     padding: 10px;
 }
@@ -635,12 +849,12 @@ $body-color: #FFFFFF;
     margin: 0 10px;
     margin-bottom: 8px;
     font-family:PingFang SC;
-    font-weight:500;
-    color:rgba(255,255,255,1);
+    font-weight:550;
+    color:$body-color;
 }
 .dasboard{
     width: 100%;
-    height: 96vh;
+    height: 90vh;
     .dasboard_global{
         width: 100%;
         height: 100%;
@@ -650,6 +864,8 @@ $body-color: #FFFFFF;
         flex-wrap: wrap;
         align-content: space-between;
         border-radius: 10px;
+        min-width: 993px;
+        min-height: 870px;
         .dasboard_one{
             width: 100%;
             height: 69.3%;
@@ -679,7 +895,49 @@ $body-color: #FFFFFF;
                 .dasboard_one_ldown{
                     width: 100%;
                     height: 49.5%;
-                    @extend .back_g;
+                    display: flex;
+                    justify-content: space-between;
+                    .dasboard_one_ldown_left{
+                        width: 34.6%;
+                        @extend .back_g;
+                        .function_list{
+                            width: 100%;
+                            height: 90%;
+                            display: flex;
+                            justify-content: center;
+                            align-content: space-around;
+                            flex-wrap: wrap;
+                            .function_list_content{
+                                width: 40%;
+                                // text-align: center;
+                                span{
+                                    margin-right: 5px;
+                                }
+                                .el-switch.is-disabled{
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                    }
+                    .dasboard_one_ldown_right{
+                        width: 64.9%;
+                        @extend .back_g;
+                        .container{
+                            width: 100%;
+                            height: 90%;
+                            display: flex;
+                            justify-content: space-around;
+                            align-items: center;
+                            div{
+                                width: 30%;
+                                height: 100%;
+                                div{
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .dasboard_one_right{
@@ -692,42 +950,19 @@ $body-color: #FFFFFF;
                     width: 100%;
                     height: 34%;
                     @extend .back_g;
-                    .container_sdk{
-                        width: 100%;
-                        height: 100%;
+                    .nr_mory{
+                        height: 80%;
                         display: flex;
-                        flex-wrap: wrap;
-                        justify-content: space-around;
+                        width: 100%;
+                        padding: 0 20px;
+                        justify-content: space-between;
+                        align-items: center;
                         text-align: center;
-                        .containesr_sdks{
-                            width: 42%;
-                            height: 100%;
-                            text-align: center;
-                            .sdk_back{
-                                width: 100%;
-                                text-align: center;
-                                // padding: 45% 6px;
-                                font-size:22px;
-                                font-family:Arial Black;
-                                font-weight:400;
-                                color:#B4FFEF;
-                                width: 100%;
-                                height: 62%;
-                                background: url('../gallery/dash_shuitong.png')no-repeat center;
-                                // background-size: 100%;
-                                position: relative;
-                            }
-                            .sdk_szie{
-                                padding-top: 35%;
-                                width: 100%;
-                            }
-                        }
-                    
                     }
                 }
-                .dasboard_one_rdown{
+                .dasboard_one_rin{
                     width: 100%;
-                    height: 65.2%;
+                    height: 49%;
                     @extend .back_g;
                     .flex_nc_ag{
                         margin: 20px 0;
@@ -753,6 +988,18 @@ $body-color: #FFFFFF;
                                 font-weight:400;
                             }
                         }
+                    }
+                }
+                .dasboard_one_rdown{
+                    width: 100%;
+                    height: 15%;
+                    @extend .back_g;
+                    .flex_GPU{
+                        width: 100%;
+                        height: 50%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
                     }
                 }
             }
@@ -827,18 +1074,319 @@ $body-color: #FFFFFF;
             .dasboard_two3{
                 width: 40.2%;
                 @extend .back_g;
-                .nr_mory{
-                    height: 80%;
-                    display: flex;
+                .container_sdk{
                     width: 100%;
-                    padding: 0 20px;
-                    justify-content: space-between;
-                    align-items: center;
+                    height: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-around;
                     text-align: center;
+                    .containesr_sdks{
+                        width: 32%;
+                        height: 100%;
+                        text-align: center;
+                        .sdk_back{
+                            width: 100%;
+                            text-align: center;
+                            // padding: 45% 6px;
+                            font-size:22px;
+                            font-family:Arial Black;
+                            font-weight:400;
+                            color:#B4FFEF;
+                            width: 100%;
+                            height: 62%;
+                            background: url('../gallery/dash_shuitong.png')no-repeat center;
+                            // background-size: 100%;
+                            position: relative;
+                        }
+                        .sdk_szie{
+                            padding-top: 20%;
+                            width: 100%;
+                        }
+                    }
+                
                 }
             }
         }
     }
+}
+}
+.c-app.c-dark-theme{
+    $body-color: #FFFFFF;
+    .back_g{
+        background-color: #212121;
+    }
+.back_g{
+    border-radius: 2px;
+    padding: 10px;
+}
+.beibiao_zi{
+    font-size:14px;
+    margin: 0 10px;
+    margin-bottom: 8px;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(255,255,255,1);
+}
+.dasboard{
+    width: 100%;
+    height: 90vh;
+    .dasboard_global{
+        width: 100%;
+        height: 100%;
+        padding: 15px 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        border-radius: 10px;
+        min-width: 993px;
+        min-height: 870px;
+        .dasboard_one{
+            width: 100%;
+            height: 69.3%;
+            display: flex;
+            justify-content: space-between;
+            // background-color: aqua;
+            .dasboard_one_left{
+                width: 78%;
+                height: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-content: space-between;
+                .dasboard_one_lup{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    height: 49.5%;
+                    .dasboard_one_lupl{
+                        width: 49.8%;
+                        @extend .back_g;
+                    }
+                    .dasboard_one_lupr{
+                        width: 49.8%;
+                        @extend .back_g;
+                    }
+                }
+                .dasboard_one_ldown{
+                    width: 100%;
+                    height: 49.5%;
+                    display: flex;
+                    justify-content: space-between;
+                    .dasboard_one_ldown_left{
+                        width: 34.6%;
+                        @extend .back_g;
+                        .function_list{
+                            width: 100%;
+                            height: 90%;
+                            display: flex;
+                            justify-content: center;
+                            align-content: space-around;
+                            flex-wrap: wrap;
+                            .function_list_content{
+                                width: 40%;
+                                // text-align: center;
+                                span{
+                                    margin-right: 5px;
+                                }
+                                .el-switch.is-disabled{
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                    }
+                    .dasboard_one_ldown_right{
+                        width: 64.9%;
+                        @extend .back_g;
+                        .container{
+                            width: 100%;
+                            height: 90%;
+                            display: flex;
+                            justify-content: space-around;
+                            align-items: center;
+                            div{
+                                width: 30%;
+                                height: 100%;
+                                div{
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .dasboard_one_right{
+                width: 21.7%;
+                height: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-content: space-between;
+                .dasboard_one_rup{
+                    width: 100%;
+                    height: 34%;
+                    @extend .back_g;
+                    .nr_mory{
+                        height: 80%;
+                        display: flex;
+                        width: 100%;
+                        padding: 0 20px;
+                        justify-content: space-between;
+                        align-items: center;
+                        text-align: center;
+                    }
+                }
+                .dasboard_one_rin{
+                    width: 100%;
+                    height: 49%;
+                    @extend .back_g;
+                    .flex_nc_ag{
+                        margin: 20px 0;
+                        height:60%;
+                        display: flex;
+                        flex-wrap: wrap;
+                        overflow-y: auto;
+                        color: $body-color;
+                        align-content: space-between;
+                        .flex_nc_cpu{
+                            width: 100%;
+                            // height:90%;
+                            .cpu_zuo{
+                                font-size:14px;
+                                /* font-family:PingFang SC; */
+                                font-weight:400;
+                                margin-right: 8px;
+                                opacity:0.4;
+                            }
+                            .cpu_you{
+                                font-size:14px;
+                                /* font-family:PingFang SC; */
+                                font-weight:400;
+                            }
+                        }
+                    }
+                }
+                .dasboard_one_rdown{
+                    width: 100%;
+                    height: 15%;
+                    @extend .back_g;
+                    .flex_GPU{
+                        width: 100%;
+                        height: 50%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+        .dasboard_two{
+            width: 100%;
+            height: 30%;
+            display: flex;
+            justify-content: space-between;
+            .dasboard_two1{
+                width: 27%;
+                @extend .back_g;
+                .flex_nc_ag{
+                    margin: 5px 0;
+                    height:80%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    overflow-y: auto;
+                    align-content: space-between;
+                    .flex_nc_cpu{
+                        width: 100%;
+                        margin: 0 0 0 10px;
+                        margin-bottom: 10px;
+                        color: $body-color;
+                        .cpu_zuo{
+                            font-size:12px;
+                            /* font-family:PingFang SC; */
+                            font-weight:400;
+                            margin-right: 8px;
+                            opacity:0.4;
+                        }
+                        .cpu_you{
+                            font-size:12px;
+                            /* font-family:PingFang SC; */
+                            font-weight:400;
+                        }
+                        #foo{
+                            border: 0;
+                            width: 78%;
+                            background: none;
+                            color: $body-color;
+                        }
+                    }
+                }
+            }
+            .dasboard_two2{
+                width: 32%;
+                @extend .back_g;
+                .zong_flex{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    align-content: space-between;
+                    margin: 10px 10px;
+                    .zong_mve{
+                        div{
+                            margin-bottom: 10px;
+                        }
+                        div:nth-child(1){
+                            opacity: 0.4;
+                        }
+                    } 
+                }
+                .zong_img{
+                    width: 100%;
+                    text-align: center;
+                    img{
+                        width: 90%;
+                    }
+                }
+            }
+            .dasboard_two3{
+                width: 40.2%;
+                @extend .back_g;
+                .container_sdk{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-around;
+                    text-align: center;
+                    .containesr_sdks{
+                        width: 32%;
+                        height: 100%;
+                        text-align: center;
+                        .sdk_back{
+                            width: 100%;
+                            text-align: center;
+                            // padding: 45% 6px;
+                            font-size:22px;
+                            font-family:Arial Black;
+                            font-weight:400;
+                            color:#B4FFEF;
+                            width: 100%;
+                            height: 62%;
+                            background: url('../gallery/dash_shuitong.png')no-repeat center;
+                            // background-size: 100%;
+                            position: relative;
+                        }
+                        .sdk_szie{
+                            padding-top: 20%;
+                            width: 100%;
+                        }
+                    }
+                
+                }
+            }
+        }
+    }
+}
+
 }
 // 弹框 
 </style>

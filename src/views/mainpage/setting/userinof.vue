@@ -6,16 +6,16 @@
             <!-- 1 -->
             <el-form label-position="left" label-width="150px" :model="editform">
                 <el-form-item :label="label.user">
-                    <input disabled class="editinput" v-model="editform.strUser"/>
+                    <el-input disabled v-model="editform.strUser"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.olPassword">
-                    <input class="editinput" v-model="editform.strPasswd"/>
+                    <el-input v-model="editform.strPasswd"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.nePassword">
-                    <input class="editinput" v-model="editform.Newpassword"/>
+                    <el-input v-model="editform.Newpassword"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.confirmpass1">
-                    <input class="editinput" v-model="editform.Newpassword1"/>
+                    <el-input v-model="editform.Newpassword1"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -28,13 +28,13 @@
             <!-- 1 -->
             <el-form label-position="left" label-width="150px" :model="form">
                 <el-form-item :label="label.user">
-                    <input class="editinput" v-model="form.strUser"/>
+                    <el-input v-model="form.strUser"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.Password">
-                    <input class="editinput" v-model="form.strPasswd"/>
+                    <el-input v-model="form.strPasswd"></el-input>
                 </el-form-item>
                 <el-form-item :label="label.confirmpass">
-                    <input class="editinput" v-model="form.strPasswd1"/>
+                    <el-input v-model="form.strPasswd1"></el-input>
                 </el-form-item>
                 <!-- <el-form-item :label="label.role">
                     <input class="editinput" v-model="form.strRoleToken"/>
@@ -60,7 +60,7 @@
             <CButton class="form_butt1" @click="deleteuser" type="submit">删除用户</CButton>
         </div>
         <el-table
-            :data="tableData"
+            :data="tableData.filter(data => !search || data.strUser.toLowerCase().includes(search.toLowerCase())).slice((currentPage-1)*pageSize,currentPage*pageSize)"
             stripe
             @select='selectCall'
             @select-all='select_Call'
@@ -88,6 +88,14 @@
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination
+            style="text-align: center;"
+            layout=" prev, pager, next,total, jumper"
+            @size-change="handleSizeChange1" 
+            @current-change="handleCurrentChange1"
+            :current-page="currentPage"
+            :total="total">
+        </el-pagination>
 	</div>
 </template>
 
@@ -97,6 +105,10 @@ export default {
 	name: 'roleinof',
 	data(){
 		return{
+            total: 0, // 总条数 1
+            currentPage: 1, // 当前页码1
+            pageSize: 10,//一页数量
+            search: '',//搜索
 			tableData: [],
             editPopup:false,
             dialogFormVisible:false,
@@ -230,9 +242,11 @@ export default {
                 if(result.status==200){
                     if(result.data.bStatus==true){
                         this.editPopup = false;
-                        this.$router.push({
-                            path: 'logout'
-                        })
+                        if(form.strUser==this.$store.state.user){
+                            this.$router.push({
+                                path: '/logout'
+                            })
+                        }
                         this.$message(this.$t("message.setting.Changecg"));
                     }else{
                         this.$message(this.$t("message.setting.Changesb"));
@@ -280,8 +294,16 @@ export default {
                 // console.log("***",result);
                 if(result.status==200){
                     this.tableData=result.data.users;
+                    this.total=this.tableData.length
                 }
             })
+        },
+        handleSizeChange1(val) {
+            this.currentPage = 1;
+            this.pageSize = val;
+        },
+        handleCurrentChange1(val) {
+            this.currentPage = val;
         },
         rolelist(){
             let root=process.env.VUE_APP_URL;
@@ -329,7 +351,6 @@ export default {
 			display: inline-block;
 			font-size: inherit;
 			height: 40px;
-			color: #FFFFFF;
 			line-height: 40px;
 			outline: 0;
 			padding: 0 15px;
@@ -340,17 +361,4 @@ export default {
 	}
 }
 
-</style>
-<style scoped>
-
-.user_pop >>>.el-dialog{
-	background-color: #2E343C!important;
-}
-
-.user_pop >>> .el-form-item__label{
-	color: #FFFFFF!important;
-}
-.user_pop >>> .el-dialog__body{
-	padding: 30px 20px 0 20px;
-}
 </style>
